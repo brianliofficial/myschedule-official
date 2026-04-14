@@ -1,0 +1,44 @@
+$xl: 1500px;
+$lg: 1280px;
+$md: 920px;
+$sm: 720px;
+$xs: 550px;
+$xxs: 380px;
+
+$white: #FFF5EE;
+
+@font-face {
+  font-family: "HanWangMingBlack";
+  src:url("/font/HanWangMingBlack.ttf");
+  src:url("/font/HanWangMingBlack.ttf") format('woff2'),             /* Super Modern Browsers */
+  url("/font/HanWangMingBlack.ttf") format('woff'),              /* Pretty Modern Browsers */
+  url("/font/HanWangMingBlack.ttf") format('truetype'),          /* Safari, Android, iOS */
+  url("/font/HanWangMingBlack.ttf") format('svg');
+  unicode-range: U+4E00-9FFF;              /* Legacy iOS */
+}
+@font-face {
+  font-family: "BebasNeue-Regular";
+  src:url("/font/HanWangMingBlack.ttf");
+  src:url("/font/BebasNeue-Regular.ttf") format('woff2'),             /* Super Modern Browsers */
+  url("/font/BebasNeue-Regular.ttf") format('woff'),              /* Pretty Modern Browsers */
+  url("/font/BebasNeue-Regular.ttf") format('truetype'),          /* Safari, Android, iOS */
+  url("/font/BebasNeue-Regular.ttf") format('svg');
+  unicode-range: U+00-024F;              /* Legacy iOS */
+}
+
+
+@mixin rwd($vw: $md, $limit: max-width) {
+	@media all and (#{$limit}: $vw) {
+	  @content;
+	}
+}
+*{
+  font-family:BebasNeue-Regular, HanWangMingBlack;
+}
+
+.button{
+    cursor: pointer;
+    &:hover{
+      filter:invert(29%) sepia(100%) saturate(6488%) hue-rotate(356deg) brightness(88%) contrast(130%);
+    }
+  }

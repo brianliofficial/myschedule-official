@@ -1,0 +1,324 @@
+// DR.BEAUTY 專用：以 #ms-page-dr-beauty 隔離，避免與 about / contact / portfolio 的 .contact-us、.profilo、textarea、#submit 等衝突
+
+body.overflow {
+  overflow: hidden;
+}
+
+// 履歷彈窗（結構：.drBeautyDialog > .drBeautyContext > .drBeautyInnerContext）
+.drBeautyDialog {
+  &.on {
+    display: flex;
+  }
+  display: none;
+  position: fixed;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(#000, 0.5);
+  right: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 100;
+
+  .drBeautyInnerContext {
+    display: flex;
+    align-items: center;
+    @include rwd($md) {
+      flex-direction: column;
+    }
+    .content-right {
+      min-width: 300px;
+      display: flex;
+      height: 300px;
+      overflow: hidden;
+      align-items: center;
+      margin: 15px;
+      position: relative;
+
+      img {
+        width: 100%;
+        transform: translate(0, 20%);
+      }
+    }
+  }
+
+  .drBeautyContext {
+    position: relative;
+    z-index: 10;
+    padding: 30px;
+    background: rgba(#000, 0.3);
+    border-radius: 15px;
+    max-height: 100vh;
+    margin: auto;
+    width: 90%;
+    @include rwd($md) {
+      width: 100%;
+    }
+    .content {
+      display: flex;
+      flex-direction: column;
+      overflow: auto;
+      max-height: 50vh;
+      padding: 15px;
+      &::-webkit-scrollbar {
+        background-color: $white;
+        width: 2px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background: #888;
+        width: 2px;
+        border-radius: 25px;
+      }
+      &::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+      h1 {
+        display: flex;
+        align-items: flex-end;
+        .small {
+          font-size: 15px;
+        }
+      }
+    }
+  }
+  .icon {
+    position: absolute;
+    right: 10px;
+    top: -50px;
+    cursor: pointer;
+    .bi {
+      position: relative;
+      transform: rotate(45deg);
+      font-size: 30px;
+    }
+  }
+}
+
+#ms-page-dr-beauty {
+  .beauty-short-description {
+    position: absolute;
+    right: 20px;
+    bottom: 10px;
+    height: fit-content;
+    z-index: 5;
+    font-size: 1.2em;
+    display: none;
+    @include rwd($md) {
+      display: block;
+    }
+    h6 {
+      font-size: 15pt;
+      font-size: 35px;
+      position: absolute;
+      left: 0px;
+      top: -40px;
+    }
+    p {
+      margin-bottom: 0em;
+      text-align: right;
+      font-size: 25px;
+    }
+  }
+
+  .aboutDrBeauty1 {
+    width: 100%;
+    height: 100vh;
+    background: url(/assets/beautypage_frontpic1.jpg) no-repeat center center;
+    background-size: cover;
+    position: sticky;
+    top: 0;
+    @include rwd($md) {
+      display: none;
+    }
+  }
+
+  .contact-us {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url(/assets/KVN_1104-86.jpg) no-repeat center center;
+    background-size: cover;
+    position: relative;
+    z-index: 100;
+    @include rwd($md) {
+      display: none;
+    }
+    .container {
+      position: relative;
+      z-index: 100;
+    }
+    .text {
+      margin-top: 15px;
+    }
+    h5 {
+      font-size: 20pt;
+      font-weight: bold;
+    }
+    p {
+      font-size: 15pt;
+      color: $white;
+    }
+    .submit {
+      width: 100%;
+      height: 30px;
+    }
+    input {
+      border-radius: 5px;
+      background-color: rgba($white, 0.5);
+      border: 1px solid $white;
+      &#ms-dr-subject {
+        width: 100%;
+        padding: 15px;
+      }
+    }
+    textarea {
+      width: 100%;
+      height: 300px;
+      background-color: rgba($white, 0.5);
+      border-radius: 5px;
+      padding: 10px;
+      border: 1px solid rgba($white, 0.5);
+    }
+    .title {
+      text-align: center;
+      font-size: 3.5em;
+      font-weight: bold;
+      padding: 10px 0;
+      border-bottom: 1px solid $white;
+    }
+    .share {
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      .icon {
+        position: relative;
+        display: block;
+        margin: 1em;
+        transition: all 0.5s ease-in-out;
+        top: 0;
+        cursor: pointer;
+        &:hover {
+          position: relative;
+          top: -10px;
+        }
+      }
+      i {
+        color: $white;
+        font-size: 2em;
+      }
+    }
+  }
+
+  #ms-dr-submit {
+    width: 150px;
+    height: 50px;
+    background-color: transparent;
+    border: 1px solid $white;
+    border-radius: 15px;
+    padding: 15px;
+    margin: 15px 0;
+    color: $white;
+    &:hover {
+      background-color: $white;
+      color: #000;
+    }
+  }
+
+  .profilo {
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+
+    iframe {
+      width: var(--video-width);
+      height: var(--video-height);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    #ms-dr-swiper-pagination {
+      position: absolute;
+      left: 0%;
+      color: $white;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      width: fit-content;
+      height: fit-content;
+      cursor: pointer;
+      .swiper-pagination-bullet {
+        padding: 1rem 0;
+        margin: 2rem 1rem;
+        background-color: transparent;
+        @include rwd($md) {
+          margin: 5px;
+          background: #eee;
+          margin-bottom: 10px;
+          min-height: 8px;
+          min-width: 8px;
+          padding: 0;
+        }
+        &.swiper-pagination-bullet-active-main {
+          visibility: visible;
+        }
+      }
+
+      .pagination-subtitle {
+        display: flex;
+        width: fit-content;
+      }
+      .swiper-pagination-bullet-active {
+        background-color: transparent;
+      }
+
+      .text {
+        font-size: 2rem;
+        color: $white;
+        position: relative;
+        top: -15px;
+      }
+      .pagination-subtitle {
+        display: flex;
+        width: fit-content;
+        height: 1rem;
+        text-align: left;
+        transform: scale(1);
+        &:not(.swiper-pagination-bullet-active) {
+          .text {
+            font-size: 0.3rem;
+          }
+        }
+        .text {
+          position: relative;
+          line-height: 1.5rem;
+        }
+      }
+      @include rwd($md) {
+        display: flex;
+        background-color: #444444;
+        border-radius: 10px;
+        transform: translateX(10px) translateY(-50%);
+        .swiper-pagination-bullet {
+          margin: 5px;
+          background: #eee;
+          margin-bottom: 10px;
+          min-height: 8px;
+          min-width: 8px;
+          &.swiper-pagination-bullet-active {
+            background: #fff;
+          }
+        }
+      }
+    }
+  }
+
+  .profilo-swiper {
+    height: 100vh;
+  }
+}

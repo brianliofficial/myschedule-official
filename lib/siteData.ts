@@ -1,0 +1,148 @@
+export type HomeVideo = { id: string; url: string };
+export type AboutVideo = { id: string; url: string };
+export type MemberItem = {
+  id: string;
+  title: string;
+  member?: string;
+  jobPos?: string;
+};
+export type DrBeautyVideo = { id: string; title: string; url: string };
+export type ProfiloItem = {
+  id: string;
+  title: string;
+  chinese_title?: string;
+  url: string;
+  author: string;
+  date: number;
+};
+export type ProfiloCategory = { name: string; profilo: ProfiloItem[] };
+
+/** Stable category tab order；後台／payload 的分類名稱宜與此一致（可再依字母附加額外分類）。 */
+export const PROFILO_CATEGORY_ORDER = ["COMMERCIAL", "TELEVISION", "MUSIC VIDEO", "OTHER"] as const;
+
+export type SiteData = {
+  homeVideos: HomeVideo[];
+  /** About 區塊；僅由 `about` 列與內建預設合併，不受 `contact` 列覆寫 */
+  aboutVideos: AboutVideo[];
+  memberData: MemberItem[];
+  /** Contact 背景影片；`cms_contact` 有有效 `contactVideos` 時使用，否則 Contact 頁可改用 `aboutVideos[0]` */
+  contactVideos: AboutVideo[];
+  drBeautyVideos: DrBeautyVideo[];
+  profilo: ProfiloCategory[];
+};
+
+/**
+ * 內建預設（bundled）。執行時請用 `cloneDefaultSiteData()`，勿直接改寫此物件。
+ * 各項目 `id` 為前台語意用字串，統一 `project-` 前綴，與 Supabase 列 uuid 區隔。
+ */
+export const defaultSiteData: SiteData = {
+  homeVideos: [
+    {
+      id: "project-home-1",
+      url: "https://www.youtube.com/embed/Ffli-o0ocT0?si=zeLjtzglBG7qmga1",
+    },
+  ] as HomeVideo[],
+  aboutVideos: [
+    {
+      id: "project-about-1",
+      url: "https://www.youtube.com/embed/Ffli-o0ocT0?si=zeLjtzglBG7qmga1",
+    },
+    {
+      id: "project-about-2",
+      url: "https://www.youtube.com/embed/d5PVbDDREW8?si=GIAf9AGI345WvGX5",
+    },
+  ] as AboutVideo[],
+  contactVideos: [] as AboutVideo[],
+  memberData: [
+    { id: "project-member-1", title: "DR.BEAUTY", member: "/assets/member/202308230080.jpg" },
+    { id: "project-member-2", title: "SABRINA TU", member: "/assets/member/202308230119.jpg" },
+    { id: "project-member-3", title: "MENTOR", jobPos: "Artist", member: "/assets/member/202308230238.jpg" },
+    { id: "project-member-4", title: "ANIKI", jobPos: "Creative Director", member: "/assets/member/202308238795.jpg" },
+    { id: "project-member-5", title: "DVL", jobPos: "Producer", member: "/assets/member/202308238969.jpg" },
+    { id: "project-member-6", title: "XIEN GAN", jobPos: "Founder", member: "/assets/member/202308238993.jpg" },
+    { id: "project-member-7", title: "KENNY YU", jobPos: "Vidoe Production Specialist", member: "/assets/member/202308239180.jpg" },
+    { id: "project-member-8", title: "LOUI LIN", jobPos: "Administrator", member: "/assets/member/202308239341.jpg" },
+    { id: "project-member-9", title: "MICHAEL.", jobPos: "Audio Engineer", member: "/assets/member/202308239405.jpg" },
+    { id: "project-member-10", title: "NUNO", jobPos: "Cinematographer", member: "/assets/member/202308239547.jpg" },
+    { id: "project-member-11", title: "ZC", jobPos: "Director", member: "/assets/member/202308239575.jpg" },
+    { id: "project-member-12", title: "MINYUN LEE", jobPos: "Director", member: "/assets/member/202308239744.jpg" },
+  ] as MemberItem[],
+  drBeautyVideos: [
+    { id: "project-drBeauty-1", title: "李包比自傳feat. 簡道生", url: "https://www.youtube.com/embed/lhAvlkYlFc4?si=Cyhpl9w_LkARqhxp" },
+    { id: "project-drBeauty-2", title: "美麗本人 ft. 謝乾", url: "https://www.youtube.com/embed/TH4iVLVqXAc?si=ayK-S5fg7CVtmEvI" },
+    { id: "project-drBeauty-3", title: "Te amo todos los días 盧廣仲&美麗本人", url: "https://www.youtube.com/embed/tLvj_eC8tQQ?si=AiryLVBuNZmzpk4l" },
+    { id: "project-drBeauty-4", title: "你是我的Bae feat. 李千娜", url: "https://www.youtube.com/embed/hXhatbZ5j4k?si=d_cjccYjBbdfdOyG" },
+    { id: "project-drBeauty-5", title: "禿油肥To Your Face feat. DJ GROUND", url: "https://www.youtube.com/embed/U2-OzFANCiA?si=guJKZgQC2Wuy7eXb" },
+    { id: "project-drBeauty-6", title: "壞爸爸 Bad Daddy", url: "https://www.youtube.com/embed/KH4HNQBlP7U?si=Z0u3VcozzcY2vQfi" },
+  ] as DrBeautyVideo[],
+  profilo: [
+    {
+      name: "COMMERCIAL",
+      profilo: [
+        { id: "project-profilo-1", title: "718 Cayman Style Edition|Powered by Style - Xieh Gan", url: "https://youtu.be/5pSwEJw53Y8?si=pBYFulqXjsLLFrC3", author: "謝乾", date: 2023 },
+        { id: "project-profilo-2", title: "潮我展現變視度│Galaxy Z Fold2 5G樂趣潮展開 - Xieh Gan", url: "https://www.youtube.com/watch?v=jeqkAGA_3n0", author: "謝乾", date: 2021 },
+        { id: "project-profilo-3", title: "CYTO® WE ALL EVOLVE - Kenny Lu", url: "https://youtu.be/KD5dGYzk9Bo?si=9yBOVzBiK7tFSr-w", author: "肯尼", date: 2023 },
+        { id: "project-profilo-4", title: "第一屆金狼獎 入圍類別影片 - Loui Lin", url: "https://www.youtube.com/watch?v=qyMIdPT4K4Q", author: "Loui", date: 2024 },
+      ],
+    },
+    {
+      name: "TELEVISION",
+      profilo: [
+        { id: "project-profilo-5", title: "The King of Nightmarket - Bo En Lee", url: "https://www.youtube.com/watch?v=TmvklnJYWA4&t=2492s", author: "Po En Lee", date: 2024 },
+        { id: "project-profilo-6", title: "The Rappers 2 - Xieh Gan", url: "https://youtu.be/PrE9j9r0Ewo?si=0xUo6Ol8yvwvrrcy", author: "Xieh Gan", date: 2023 },
+      ],
+    },
+    {
+      name: "MUSIC VIDEO",
+      profilo: [
+        { id: "project-profilo-7", title: "Skibidi - Loui&Kenny Lu", chinese_title: "林俊傑 Ft.成龍 - Skibidi", url: "https://www.youtube.com/embed/jiawzYgfkuI?si=FrGUfJw5TAjUjr8J", author: "Loui&Kenny Lu", date: 2025 },
+        { id: "project-profilo-8", title: "Surfer's Love Story - ZC", chinese_title: "張震嶽 Ayal Komod - 浪人的 Surfer's Love Story", url: "https://www.youtube.com/embed/ZIvWrKYdMQE?si=LIrwVBb43wagBJDn", author: "ZC", date: 2025 },
+        { id: "project-profilo-9", title: "LOVE ME OR NOT - Michael.", chinese_title: "薔薔 MAZE - LOVE ME OR NOT", url: "https://www.youtube.com/embed/SRbsIUYB0dc?si=4H6J3h5UDDcx3dS1", author: "Michael.", date: 2025 },
+        { id: "project-profilo-10", title: "Signal - Loui", chinese_title: "陳勢安 Andrew Tan - 你的暗號 Signal", url: "https://www.youtube.com/embed/DJmHJB-hHC8?si=nCpY2TQaau2fSR1j", author: "Loui", date: 2025 },
+        { id: "project-profilo-11", title: "A Thousand Words - LEE PO EN", chinese_title: "陶喆 David Tao - 千言萬語 A Thousand Words", url: "https://www.youtube.com/embed/cgnPinA7D8U?si=IHaNB2I9gJLdPScI", author: "LEE PO EN", date: 2025 },
+        { id: "project-profilo-12", title: "Mei Mei - ZC", chinese_title: "瘦子E.SO【妹妹 Mei Mei】Official Music Video", url: "https://youtu.be/Df9lbCJNhGU?si=96PI0Tv9fHYH_nEq", author: "ZC", date: 2022 },
+        { id: "project-profilo-13", title: "ONE SONG - ZC", chinese_title: "婁峻碩SHOU,派偉俊Patrick Brasca - 一首歌 ONE SONG M/V", url: "https://youtu.be/QvydPXEfk0M?si=NsdRQ_-qTdblw2iQ", author: "ZC", date: 2023 },
+        { id: "project-profilo-14", title: "Toxic Boss - ZC", url: "https://www.youtube.com/watch?v=tsahcnnUzMw", author: "ZC", date: 2024 },
+        { id: "project-profilo-15", title: "Whatever - Xieh Gan", url: "https://www.youtube.com/watch?v=QuNc8b7DxyY", author: "謝乾", date: 2018 },
+        { id: "project-profilo-16", title: "Way Up - Xieh Gan", url: "https://youtu.be/JfS8YZD5eSA?si=qsG-ra6E1AK0jkd_", author: "謝乾", date: 2021 },
+        { id: "project-profilo-17", title: "iGO ASIA REMIX - Xieh Gan", url: "https://www.youtube.com/watch?v=FcCtOYGxf1Y", author: "謝乾", date: 2020 },
+        { id: "project-profilo-18", title: "CHANGE - Xieh Gan", url: "https://youtu.be/HTRQ0n4yjfs?si=8hTSvMuQIE9jt8di", author: "謝乾", date: 2020 },
+        { id: "project-profilo-19", title: "You Don't Need To Know - ZC", url: "https://www.youtube.com/watch?v=fKd-qQto3gk", author: "ZC", date: 2024 },
+        { id: "project-profilo-20", title: "早上PAPAPA - Xieh Gan", url: "https://www.youtube.com/watch?v=yOEpwDu7OB4", author: "謝乾", date: 2018 },
+        { id: "project-profilo-21", title: "Soul Away - Xieh Gan", url: "https://youtu.be/XPQzKjisTbI?si=5nf461Nqtr4OBYrq", author: "謝乾", date: 2019 },
+        { id: "project-profilo-22", title: "Don't Ask - Xieh Gan", url: "https://www.youtube.com/watch?v=tRa3fOlnN7k", author: "謝乾", date: 2018 },
+        { id: "project-profilo-23", title: "DON - Xieh Gan", url: "https://youtu.be/fIXTRr22_II?si=Gl0mOerB1ZkRWj3V", author: "謝乾", date: 2018 },
+        { id: "project-profilo-24", title: "Moment - Xieh Gan", url: "https://www.youtube.com/watch?v=F5XjLbMTo38", author: "謝乾", date: 2019 },
+        { id: "project-profilo-25", title: "YouTube Music Night with NICKTHEREAL 十週年線上演唱會 - Xieh Gan", url: "https://www.youtube.com/watch?v=hQkQ2AzdNaY", author: "謝乾", date: 2020 },
+        { id: "project-profilo-26", title: "She Ain’t Watchin’ - Xieh Gan", url: "https://youtu.be/smFGZKPS5yc?si=n9wlzWOOYr7ovyHk", author: "謝乾", date: 2020 },
+        { id: "project-profilo-27", title: "Follow You - Xieh Gan", url: "https://youtu.be/U1G4lKnYf4o?si=SqjZtQoEYG2Ervyc", author: "謝乾", date: 2020 },
+        { id: "project-profilo-28", title: "PRAISE - Xieh Gan", url: "https://youtu.be/YgNGl442hgg?si=QsEi1O32Scs5sj_R", author: "謝乾", date: 2020 },
+        { id: "project-profilo-29", title: "C'MON - Xieh Gan", url: "https://www.youtube.com/watch?v=0Yi4WAR-9hM", author: "謝乾", date: 2021 },
+        { id: "project-profilo-30", title: "Weirdo - Xieh Gan", url: "https://youtu.be/9eOQsGYs70c?si=FoHoPQN0-w2Roak0", author: "謝乾", date: 2021 },
+        { id: "project-profilo-31", title: "Sweet Baby - Xieh Gan", url: "https://youtu.be/NDDa_AV8cks?si=RdAgARz5QULyqtdh", author: "謝乾", date: 2021 },
+        { id: "project-profilo-32", title: "Help - ZC", url: "https://youtu.be/HqhQR3adbok?si=CH0pu9G5xhJw0-iR", author: "ZC", date: 2020 },
+        { id: "project-profilo-33", title: "NO! 不良示範 - ZC", chinese_title: "J.Sheon - NO! 不良示範 (Official Music Video)", url: "https://youtu.be/O2EZ6Tys0x8?si=8w3-iQqDIIdwXyfH", author: "ZC", date: 2022 },
+        { id: "project-profilo-34", title: "麻克與林送夫 Remix - ZC", chinese_title: "BSB - 麻克與林送夫 Remix (Official MV)", url: "https://youtu.be/Et-TvF_4fa4?si=NeMWObX4kFhhMBzU", author: "ZC", date: 2024 },
+        { id: "project-profilo-35", title: "阿達A/DA 水樂男孩STRAIGHT UP BOYZ 【吉娃娃】Office Music Video", url: "https://www.youtube.com/watch?v=bnOjr-SMTbc", author: "莎賓涂Sebine. Tu", date: 2022 },
+        { id: "project-profilo-36", title: "不捨不得 - Sebine.Tu", url: "https://www.youtube.com/watch?v=F6XaLvhpGog", author: "莎賓涂Sebine. Tu", date: 2022 },
+        { id: "project-profilo-37", title: "11th hour - Sebine.Tu", url: "https://www.youtube.com/watch?v=xndA9Geu4eg", author: "莎賓涂Sebine. Tu", date: 2023 },
+      ],
+    },
+    {
+      name: "OTHER",
+      profilo: [
+        { id: "project-profilo-38", title: "My Schedule LTD showreel 2025 - Michael.", url: "https://www.youtube.com/embed/hxPHwouNZ8w?si=SSzj_k20KlKzZbuo", author: "Michael.", date: 2025 },
+        { id: "project-profilo-39", title: "My Schedule LTD showreel 2018 - Xieh Gan", url: "https://www.youtube.com/watch?v=Ffli-o0ocT0", author: "謝乾", date: 2018 },
+      ],
+    },
+  ],
+};
+
+/**
+ * 取得內建預設的**深拷貝**，供合併起點或僅使用預設時回傳，避免呼叫端改到 `defaultSiteData` 本體。
+ */
+export function cloneDefaultSiteData(): SiteData {
+  return structuredClone(defaultSiteData);
+}
+
+export default defaultSiteData;
