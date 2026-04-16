@@ -26,6 +26,23 @@ export function isSupabaseConfigured(): boolean {
   return Boolean(resolveSupabaseUrl() && resolveSupabaseAnonKey());
 }
 
+/** 避免 Next 快取 Supabase REST GET；網路錯誤時短重試一次。 */
+function createServerFetch(): typeof fetch {
+  return async (input, init) => {
+    const merged = { ...init, cache: "no-store" as RequestCache };
+    let last: unknown;
+    for (let attempt = 0; attempt < 2; attempt++) {
+      try {
+        return await fetch(input, merged);
+      } catch (e) {
+        last = e;
+        if (attempt === 0) await new Promise((r) => setTimeout(r, 400));
+      }
+    }
+    throw last;
+  };
+}
+
 export function createClient(): SupabaseClient {
   const url = resolveSupabaseUrl();
   const key = resolveSupabaseAnonKey();
@@ -34,5 +51,8 @@ export function createClient(): SupabaseClient {
       "Missing Supabase URL or anon key (SUPABASE_ANON_KEY / NEXT_PUBLIC_SUPABASE_ANON_KEY / NEXT_PUBLIC_ANON_KEY / NEXT_PUBLIC_SUPABASE_KEY, plus SUPABASE_URL or NEXT_PUBLIC_SUPABASE_URL)",
     );
   }
-  return createSupabaseClient(url, key);
+  return createSupabaseClient(url, key, {
+    global: { fetch: createServerFetch() },
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
 }

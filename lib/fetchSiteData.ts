@@ -49,38 +49,6 @@ function countCmsRows(
   return n;
 }
 
-// #region agent log
-function agentLogSemanticIds(siteData: SiteData, branch: string, runId: string) {
-  const data = {
-    branch,
-    runId,
-    home: siteData.homeVideos[0]?.id,
-    about0: siteData.aboutVideos[0]?.id,
-    member0: siteData.memberData[0]?.id,
-    dr0: siteData.drBeautyVideos[0]?.id,
-    profilo0: siteData.profilo[0]?.profilo[0]?.id,
-    allHomeStartWithProject: siteData.homeVideos.every((v) => v.id.startsWith("project-")),
-    anySemanticIdMissingProjectPrefix:
-      [...siteData.homeVideos, ...siteData.aboutVideos, ...siteData.contactVideos].some((v) => !v.id.startsWith("project-")) ||
-      siteData.memberData.some((m) => !m.id.startsWith("project-")) ||
-      siteData.drBeautyVideos.some((v) => !v.id.startsWith("project-")) ||
-      siteData.profilo.some((c) => c.profilo.some((p) => !p.id.startsWith("project-"))),
-  };
-  fetch("http://127.0.0.1:7803/ingest/6dd1a450-f880-4a2f-8c90-50c09eda3cd6", {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "468882" },
-    body: JSON.stringify({
-      sessionId: "468882",
-      location: "fetchSiteData.ts:agentLogSemanticIds",
-      message: "semantic id sample after load",
-      data,
-      timestamp: Date.now(),
-      hypothesisId: "H4_H5",
-    }),
-  }).catch(() => {});
-}
-// #endregion
-
 /**
  * 載入前台資料：自 Supabase `public.cms_*` 五表合併；失敗或未設定時為內建預設深拷貝。
  */
@@ -92,7 +60,6 @@ export async function fetchSiteData(): Promise<FetchSiteDataResult> {
       console.warn("[fetchSiteData] NEXT_PUBLIC_SITE_DATA_SOURCE=static：略過 Supabase，僅使用內建 defaultSiteData。");
     }
     const siteData = cloneDefaultSiteData();
-    agentLogSemanticIds(siteData, "static", "post-fix-verify");
     return {
       siteData,
       provenance: defaultProvenance(),
@@ -107,7 +74,6 @@ export async function fetchSiteData(): Promise<FetchSiteDataResult> {
       );
     }
     const siteData = cloneDefaultSiteData();
-    agentLogSemanticIds(siteData, "not_configured", "post-fix-verify");
     return {
       siteData,
       provenance: defaultProvenance(),
@@ -125,7 +91,6 @@ export async function fetchSiteData(): Promise<FetchSiteDataResult> {
     const supabaseQueryError =
       errEntries.length === 0 ? null : errEntries.map(([t, m]) => `${t}: ${m}`).join("; ");
 
-    agentLogSemanticIds(siteData, "merged", "pre-fix");
     return {
       siteData,
       provenance,
@@ -139,7 +104,6 @@ export async function fetchSiteData(): Promise<FetchSiteDataResult> {
     };
   } catch {
     const siteData = cloneDefaultSiteData();
-    agentLogSemanticIds(siteData, "exception", "post-fix-verify");
     return {
       siteData,
       provenance: defaultProvenance(),
